@@ -35,9 +35,17 @@ export default function App() {
         <Courses />
         <ClassTimings />
         <AboutTrainer />
-        <HowItWorks />
+        {/* Phones skip these two: the same advice is already covered by the
+            trainer, contact and footer blocks, and the page reads better
+            without them. The wrapper is `display: none` below 768px, so no
+            space, padding or margin is left behind. */}
+        <div className="hidden md:block">
+          <HowItWorks />
+        </div>
         <Testimonials />
-        <Faq />
+        <div className="hidden md:block">
+          <Faq />
+        </div>
         <Locations />
         <EnquiryForm />
         <Contact />

@@ -5,6 +5,11 @@ type SectionProps = {
   id: string
   eyebrow?: string
   title: string
+  /**
+   * Optional trimmed heading shown on phones only. The full `title` still
+   * renders from the `sm` breakpoint upwards.
+   */
+  titleMobile?: string
   titleId?: string
   description?: string
   /**
@@ -29,6 +34,7 @@ export function Section({
   id,
   eyebrow,
   title,
+  titleMobile,
   titleId,
   description,
   descriptionMobile,
@@ -61,7 +67,14 @@ export function Section({
             id={headingId}
             className="text-[1.375rem] leading-[1.25] font-semibold sm:text-3xl lg:text-[2.4rem] lg:leading-[1.18]"
           >
-            {title}
+            {titleMobile ? (
+              <>
+                <span className="sm:hidden">{titleMobile}</span>
+                <span className="hidden sm:inline">{title}</span>
+              </>
+            ) : (
+              title
+            )}
           </h2>
           {description ? (
             <p className="mt-3 text-[0.95rem] leading-[1.6] text-ink-600 sm:mt-5 sm:text-[1.05rem] sm:leading-relaxed">

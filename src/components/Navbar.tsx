@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Menu, Phone, X } from 'lucide-react'
+import { Menu, MessageCircle, Phone, X } from 'lucide-react'
 import { siteConfig } from '../config/site'
 import { telUrl, waMessages } from '../lib/whatsapp'
 import { ActionButton } from './ui/ActionButton'
@@ -13,6 +13,11 @@ const navLinks = [
   { label: 'Contact', href: '#contact' },
 ]
 
+/**
+ * Phones get a denser lockup - 32px mark, tighter name, smaller location line -
+ * so the bar reads as finished rather than as a logo stranded at the left of an
+ * empty 64px strip. From `sm` upwards the original desktop sizing is used.
+ */
 function Logo() {
   return (
     <a
@@ -20,14 +25,16 @@ function Logo() {
       className="-ml-1 flex min-w-0 items-center gap-2.5 rounded-lg p-1"
       aria-label={`${siteConfig.instituteName} - Home`}
     >
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-ink-900">
-        <span className="text-[0.95rem] leading-none font-bold tracking-tight text-white">KA</span>
+      <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-ink-900 sm:size-9">
+        <span className="text-[0.85rem] leading-none font-bold tracking-tight text-white sm:text-[0.95rem]">
+          KA
+        </span>
       </span>
       <span className="flex min-w-0 flex-col leading-tight">
         <span className="truncate text-[0.95rem] font-semibold tracking-tight text-ink-900">
           {siteConfig.instituteName}
         </span>
-        <span className="truncate text-[0.75rem] font-medium tracking-wide text-ink-500">
+        <span className="truncate text-[0.68rem] font-medium tracking-wide text-ink-500 sm:text-[0.75rem]">
           {siteConfig.location}
         </span>
       </span>
@@ -81,11 +88,13 @@ export function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b bg-white/90 backdrop-blur-lg transition-colors duration-300 ${
-        scrolled ? 'border-line' : 'border-transparent'
+      className={`sticky top-0 z-50 border-b border-line bg-white/90 backdrop-blur-lg sm:border-b-transparent sm:transition-colors sm:duration-300 ${
+        scrolled ? 'sm:border-line' : 'sm:border-transparent'
       }`}
     >
-      <div className="container-page flex h-16 items-center justify-between gap-3 sm:h-[4.5rem]">
+      {/* 56px bar with 16px gutters on phones; the shared 72px / 40px
+          container from `sm` upwards. */}
+      <div className="mx-auto flex h-14 w-full max-w-[72rem] items-center justify-between gap-3 px-4 sm:h-[4.5rem] sm:px-10">
         <Logo />
 
         <nav aria-label="Main" className="hidden lg:block">
@@ -126,7 +135,7 @@ export function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
-            className="-mr-1 inline-flex size-11 shrink-0 items-center justify-center rounded-lg border border-ink-200 text-ink-800 transition-colors hover:bg-ink-50 lg:hidden"
+            className="-mr-1 inline-flex size-11 shrink-0 items-center justify-center rounded-lg text-ink-800 transition-colors active:bg-ink-50 lg:hidden"
           >
             {open ? (
               <X className="size-5" aria-hidden="true" />
@@ -140,9 +149,14 @@ export function Navbar() {
       {open ? (
         <div
           id="mobile-menu"
-          className="mobile-panel max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-line bg-white lg:hidden"
+          className="mobile-panel max-h-[calc(100dvh-3.5rem)] overflow-y-auto overscroll-contain border-t border-line bg-white lg:hidden"
         >
-          <nav aria-label="Mobile" className="container-page py-3 pb-5">
+          {/* Same gutters and max width as the bar above, so the links line up
+              with the logo. */}
+          <nav
+            aria-label="Mobile"
+            className="mx-auto w-full max-w-[72rem] px-4 py-2.5 pb-4 sm:px-10"
+          >
             <ul>
               {navLinks.map((link, index) => (
                 <li key={link.href} className="mobile-panel-item" style={{ animationDelay: `${index * 25}ms` }}>
@@ -157,25 +171,21 @@ export function Navbar() {
               ))}
             </ul>
 
+            {/* One compact CTA. The call number stays in the contact section
+                and the footer, so the panel is not padded out with a second
+                full-width control. */}
             <div
-              className="mobile-panel-item mt-4 flex flex-col gap-2.5"
+              className="mobile-panel-item mt-3.5"
               style={{ animationDelay: `${navLinks.length * 25}ms` }}
             >
               <ActionButton
                 message={waMessages.hero}
                 variant="whatsapp"
-                size="lg"
-                className="w-full"
+                size="md"
+                icon={<MessageCircle className="size-4" aria-hidden="true" />}
               >
                 Chat on WhatsApp
               </ActionButton>
-              <a
-                href={telUrl() ?? '#contact'}
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-[10px] border border-ink-200 px-5 text-[0.95rem] font-semibold text-ink-800 transition-colors active:bg-ink-50"
-              >
-                <Phone className="size-4 shrink-0" aria-hidden="true" />
-                {siteConfig.phoneNumber}
-              </a>
             </div>
           </nav>
         </div>
