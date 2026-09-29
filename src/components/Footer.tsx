@@ -6,16 +6,17 @@ import { Reveal } from './ui/Reveal'
 
 const CURRENT_YEAR = new Date().getFullYear()
 
+/** Phones show the six most useful destinations; desktop keeps the full map. */
 const quickLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Courses', href: '#courses' },
-  { label: 'Why Us', href: '#why-us' },
-  { label: 'Class Timings', href: '#timings' },
-  { label: 'Locations', href: '#locations' },
-  { label: 'Reviews', href: '#testimonials' },
-  { label: 'FAQ', href: '#faq' },
-  { label: 'Enquire', href: '#enquire' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'About', href: '#about', hideOnMobile: false },
+  { label: 'Courses', href: '#courses', hideOnMobile: false },
+  { label: 'Why Us', href: '#why-us', hideOnMobile: false },
+  { label: 'Class Timings', href: '#timings', hideOnMobile: false },
+  { label: 'Locations', href: '#locations', hideOnMobile: true },
+  { label: 'Reviews', href: '#testimonials', hideOnMobile: true },
+  { label: 'FAQ', href: '#faq', hideOnMobile: false },
+  { label: 'Enquire', href: '#enquire', hideOnMobile: true },
+  { label: 'Contact', href: '#contact', hideOnMobile: false },
 ]
 
 const courseLinks = [
@@ -36,7 +37,7 @@ export function Footer() {
   return (
     <footer className="safe-bottom-bar border-t border-line bg-canvas">
       <div className="container-page">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-9 pt-10 min-[400px]:grid-cols-2 sm:gap-10 sm:pt-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+        <div className="grid grid-cols-2 gap-x-5 gap-y-8 pt-8 min-[400px]:grid-cols-2 sm:gap-10 sm:pt-14 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div className="col-span-2 lg:col-span-1 lg:pr-6">
             <div className="flex items-center gap-2.5">
               <span className="flex size-9 items-center justify-center rounded-lg bg-ink-900">
@@ -53,8 +54,11 @@ export function Footer() {
                 </span>
               </span>
             </div>
-            <p className="mt-4 max-w-md text-[0.9rem] leading-[1.65] text-ink-600 sm:mt-5 sm:text-sm sm:leading-relaxed">
-              {siteConfig.summary}
+            <p className="mt-3.5 max-w-md text-[0.85rem] leading-[1.6] text-ink-600 sm:mt-5 sm:text-sm sm:leading-relaxed">
+              <span className="sm:hidden">
+                1-to-1 spoken English coaching in {siteConfig.location}. Speak with confidence.
+              </span>
+              <span className="hidden sm:inline">{siteConfig.summary}</span>
             </p>
             {socials.length > 0 ? (
               <ul className="mt-5 flex flex-wrap items-center gap-2">
@@ -75,15 +79,15 @@ export function Footer() {
           </div>
 
           <nav aria-label="Quick links">
-            <h2 className="text-[0.78rem] font-semibold tracking-[0.16em] text-ink-400 uppercase">
+            <h2 className="text-[0.72rem] font-semibold tracking-[0.16em] text-ink-400 uppercase sm:text-[0.78rem]">
               Explore
             </h2>
-            <ul className="mt-3.5 space-y-0.5 sm:mt-4">
+            <ul className="mt-2.5 space-y-0.5 sm:mt-4">
               {quickLinks.map((link) => (
-                <li key={link.label}>
+                <li key={link.label} className={link.hideOnMobile ? 'hidden sm:block' : ''}>
                   <a
                     href={link.href}
-                    className="-mx-2 inline-block min-h-11 min-w-[2.75rem] px-2 py-1.5 text-[0.9rem] text-ink-600 transition-colors hover:text-ink-900 lg:min-h-0 lg:min-w-0 lg:text-sm"
+                    className="-mx-2 inline-block min-h-10 min-w-[2.75rem] px-2 py-1.5 text-[0.85rem] text-ink-600 transition-colors hover:text-ink-900 sm:min-h-11 sm:text-[0.9rem] lg:min-h-0 lg:min-w-0 lg:text-sm"
                   >
                     {link.label}
                   </a>
@@ -92,11 +96,13 @@ export function Footer() {
             </ul>
           </nav>
 
-          <nav aria-label="Courses">
+          {/* Course names already live in the courses section and its own
+              footer links, so this column is desktop-only. */}
+          <nav aria-label="Courses" className="hidden sm:block">
             <h2 className="text-[0.78rem] font-semibold tracking-[0.16em] text-ink-400 uppercase">
               Courses
             </h2>
-            <ul className="mt-3.5 space-y-0.5 sm:mt-4">
+            <ul className="mt-4 space-y-0.5">
               {courseLinks.map((link) => (
                 <li key={link.label}>
                   <a
@@ -111,17 +117,17 @@ export function Footer() {
           </nav>
 
           <div className="col-span-2 min-[400px]:col-span-1 lg:col-span-1">
-            <h2 className="text-[0.78rem] font-semibold tracking-[0.16em] text-ink-400 uppercase">
+            <h2 className="text-[0.72rem] font-semibold tracking-[0.16em] text-ink-400 uppercase sm:text-[0.78rem]">
               Contact
             </h2>
-            <ul className="mt-3.5 space-y-3 text-[0.9rem] text-ink-600 sm:mt-4 sm:space-y-3.5 sm:text-sm">
+            <ul className="mt-2.5 space-y-2.5 text-[0.85rem] text-ink-600 sm:mt-4 sm:space-y-3.5 sm:text-sm">
               <li className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 size-4 shrink-0 text-ink-400" aria-hidden="true" />
                 <a
                   href={siteConfig.directionsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block min-h-11 py-1 hover:text-ink-900 lg:min-h-0"
+                  className="inline-block min-h-10 py-1 hover:text-ink-900 sm:min-h-11 lg:min-h-0"
                 >
                   {siteConfig.address.line1}, {siteConfig.address.line2}, {siteConfig.address.city}{' '}
                   {siteConfig.address.pincode}
@@ -132,7 +138,7 @@ export function Footer() {
                   <Phone className="size-4 shrink-0 text-ink-400" aria-hidden="true" />
                   <a
                     href={telUrl() ?? '#contact'}
-                    className="inline-block min-h-11 py-1 hover:text-ink-900 lg:min-h-0"
+                    className="inline-block min-h-10 py-1 hover:text-ink-900 sm:min-h-11 lg:min-h-0"
                   >
                     {siteConfig.phoneNumber}
                   </a>
@@ -149,24 +155,30 @@ export function Footer() {
               <li className="text-ink-500">{siteConfig.classTimings}</li>
             </ul>
 
-            <ActionButton
-              message={waMessages.floating}
-              variant="whatsapp"
-              size="md"
-              className="mt-5 w-full sm:mt-6 sm:w-auto"
-              icon={<MessageCircle className="size-4" aria-hidden="true" />}
-            >
-              Chat on WhatsApp
-            </ActionButton>
+            {/* Phones already have the sticky WhatsApp bar and the closing CTA
+                section, so this is a desktop-only convenience. The wrapper owns
+                the visibility, because ActionButton's base `inline-flex` would
+                otherwise win over a `hidden` utility on the button itself. */}
+            <div className="mt-5 hidden sm:block sm:mt-6">
+              <ActionButton
+                message={waMessages.floating}
+                variant="whatsapp"
+                size="md"
+                className="sm:w-auto"
+                icon={<MessageCircle className="size-4" aria-hidden="true" />}
+              >
+                Chat on WhatsApp
+              </ActionButton>
+            </div>
           </div>
         </div>
 
         <Reveal delay={80}>
-          <div className="mt-10 border-t border-line pt-6 sm:mt-14">
-            <p className="text-center text-[0.85rem] text-ink-500 sm:text-sm">
+          <div className="mt-8 border-t border-line pt-5 sm:mt-14 sm:pt-6">
+            <p className="text-center text-[0.8rem] text-ink-500 sm:text-sm">
               &copy; {CURRENT_YEAR} {siteConfig.instituteName}. All rights reserved.
             </p>
-            <p className="mt-2 text-center text-[0.75rem] leading-relaxed text-ink-400 sm:text-xs">
+            <p className="mt-1.5 text-center text-[0.72rem] leading-relaxed text-ink-400 sm:mt-2 sm:text-xs">
               Spoken English Classes in Avadi &middot; English Speaking Course in Thirunindravur
               &middot; 1-to-1 English Coaching in Chennai
             </p>

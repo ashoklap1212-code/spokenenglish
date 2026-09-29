@@ -7,7 +7,7 @@ type ActionButtonProps = {
   message?: string
   /** Normal link, used for anchors such as #courses */
   href?: string
-  variant?: 'primary' | 'whatsapp' | 'outline' | 'quiet'
+  variant?: 'primary' | 'whatsapp' | 'outline' | 'quiet' | 'onDark'
   size?: 'sm' | 'md' | 'lg'
   className?: string
   icon?: ReactNode
@@ -18,17 +18,25 @@ const variants = {
   whatsapp: 'bg-wa text-white hover:bg-wa-dark active:bg-wa-dark',
   outline: 'border border-ink-200 bg-white text-ink-800 hover:border-ink-900 hover:bg-ink-900 hover:text-white',
   quiet: 'text-ink-700 hover:bg-ink-50 hover:text-ink-900',
+  /**
+   * Outline button for dark sections. It exists as its own variant instead of
+   * an `outline` plus utility overrides, because two background utilities in
+   * the same class list are resolved by stylesheet order, not by the order
+   * they were written in - which left this button filled solid white.
+   */
+  onDark: 'border border-ink-600 bg-transparent text-white hover:border-white hover:bg-white hover:text-ink-900',
 }
 
 /**
- * Mobile keeps a 48px minimum height for comfortable tapping, then drops to
- * the tighter desktop heights from `sm` upwards so the approved desktop layout
- * is unchanged.
+ * Mobile heights stay in the 44-48px band recommended for refined touch
+ * controls, with a 10px radius and 14-15px type so a button reads as a website
+ * control rather than a full-width app button. From `sm` upwards the approved
+ * desktop sizes and pill radius take over, so the desktop layout is unchanged.
  */
 const sizes = {
-  sm: 'h-12 px-4 text-[0.95rem] gap-1.5 sm:h-11 sm:text-sm sm:px-4 lg:h-9',
-  md: 'h-12 px-5 text-[0.95rem] gap-2 sm:h-11 sm:px-5 sm:text-[0.95rem] lg:h-11',
-  lg: 'h-14 px-6 text-base gap-2.5 sm:h-13 sm:px-7 sm:text-base sm:[1.05rem]',
+  sm: 'h-11 px-4 text-[0.9rem] gap-1.5 sm:h-11 sm:px-4 sm:text-sm sm:rounded-full lg:h-9',
+  md: 'h-11 px-5 text-[0.9rem] gap-2 sm:h-11 sm:px-5 sm:text-[0.95rem] sm:rounded-full lg:h-11',
+  lg: 'h-12 px-5 text-[0.95rem] gap-2 sm:h-13 sm:px-7 sm:text-base sm:[1.05rem] sm:rounded-full',
 }
 
 /**
@@ -54,7 +62,7 @@ export function ActionButton({
   return (
     <a
       href={target}
-      className={`inline-flex max-w-full items-center justify-center rounded-full font-semibold whitespace-nowrap transition duration-200 ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex max-w-full items-center justify-center rounded-[10px] font-semibold whitespace-nowrap transition duration-200 ${variants[variant]} ${sizes[size]} ${className}`}
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
     >
       {icon}

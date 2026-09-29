@@ -149,7 +149,7 @@ export function Navbar() {
                   <a
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className="flex min-h-13 items-center border-b border-line py-2.5 text-[1.05rem] font-medium text-ink-800 transition-colors active:bg-ink-50"
+                    className="flex min-h-12 items-center border-b border-line py-2.5 text-[1rem] font-medium text-ink-800 transition-colors active:bg-ink-50"
                   >
                     {link.label}
                   </a>
@@ -171,9 +171,9 @@ export function Navbar() {
               </ActionButton>
               <a
                 href={telUrl() ?? '#contact'}
-                className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-full border border-ink-200 px-6 text-base font-semibold text-ink-800 transition-colors active:bg-ink-50"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-[10px] border border-ink-200 px-5 text-[0.95rem] font-semibold text-ink-800 transition-colors active:bg-ink-50"
               >
-                <Phone className="size-5" aria-hidden="true" />
+                <Phone className="size-4 shrink-0" aria-hidden="true" />
                 {siteConfig.phoneNumber}
               </a>
             </div>

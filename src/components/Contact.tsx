@@ -1,7 +1,7 @@
 import { Clock, Mail, MapPin, MessageCircle, Navigation, Phone } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { classSchedule, siteConfig } from '../config/site'
-import { mailUrl, mapsUrl, telUrl, waMessages } from '../lib/whatsapp'
+import { mailUrl, mapsUrl, telUrl, waMessages, whatsappUrl } from '../lib/whatsapp'
 import { ActionButton } from './ui/ActionButton'
 import { Section } from './ui/Section'
 import { Reveal } from './ui/Reveal'
@@ -39,7 +39,7 @@ const contactRows: ContactRow[] = [
     icon: MessageCircle,
     label: 'WhatsApp',
     value: `+${siteConfig.whatsappNumber.replace(/^91/, '')}`,
-    href: undefined,
+    href: whatsappUrl(waMessages.general),
     isLink: true,
   },
   {
@@ -65,7 +65,7 @@ function MapCard() {
           title={`Map showing the location of ${siteConfig.instituteName} in ${siteConfig.location}`}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          className="h-64 w-full sm:h-full sm:min-h-80"
+          className="h-56 w-full sm:h-full sm:min-h-80"
           style={{ border: 0 }}
           allowFullScreen
         />
@@ -110,19 +110,20 @@ export function Contact() {
       eyebrow="Contact"
       title="Visit Us, Call Us, Or Message Us"
       description={`${siteConfig.instituteName} is at ${siteConfig.address.line2}, ${siteConfig.address.city}. Send a message and we will reply with the next available slot.`}
+      descriptionMobile={`Find us in ${siteConfig.address.city}. Message us and we will reply with the next slot.`}
       align="left"
       tone="mist"
     >
-      <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
+      <div className="grid gap-7 lg:grid-cols-2 lg:gap-12">
         <Reveal>
-          <ul className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line">
+          <ul className="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:rounded-2xl">
             {contactRows.map(({ icon: Icon, label, value, href, isLink }) => (
-              <li key={label} className="flex items-start gap-4 bg-white p-4 sm:p-6">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-ink-50 text-ink-800">
+              <li key={label} className="flex items-start gap-3.5 bg-white p-3.5 sm:gap-4 sm:p-6">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-ink-50 text-ink-800 sm:size-9">
                   <Icon className="size-4" aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
-                  <p className="text-[0.78rem] font-semibold tracking-[0.16em] text-ink-400 uppercase">
+                  <p className="text-[0.7rem] font-semibold tracking-[0.16em] text-ink-400 uppercase sm:text-[0.78rem]">
                     {label}
                   </p>
                   {isLink && href ? (
@@ -131,12 +132,12 @@ export function Contact() {
                       {...(href.startsWith('http')
                         ? { target: '_blank', rel: 'noopener noreferrer' }
                         : {})}
-                      className="mt-1 inline-flex min-h-11 items-center py-1.5 text-[0.97rem] font-medium break-words text-ink-900 underline-offset-4 hover:underline lg:min-h-0"
+                      className="mt-1 inline-flex min-h-11 items-center py-1 text-[0.92rem] font-medium break-words text-ink-900 underline-offset-4 hover:underline lg:min-h-0 lg:text-[0.97rem]"
                     >
                       {value}
                     </a>
                   ) : (
-                    <p className="mt-1 py-1.5 text-[0.97rem] font-medium break-words text-ink-900">
+                    <p className="mt-1 py-1.5 text-[0.92rem] font-medium break-words text-ink-900 lg:text-[0.97rem]">
                       {value}
                     </p>
                   )}
@@ -145,7 +146,9 @@ export function Contact() {
             ))}
           </ul>
 
-          <div className="mt-5 rounded-2xl border border-line bg-white p-5 sm:mt-6 sm:p-6">
+          {/* The same schedule is already listed in its own section, so the
+              duplicate card is desktop-only. */}
+          <div className="mt-5 hidden rounded-2xl border border-line bg-white p-5 sm:mt-6 sm:block sm:p-6">
             <p className="text-[0.78rem] font-semibold tracking-[0.16em] text-ink-400 uppercase">
               Weekly schedule
             </p>
@@ -165,13 +168,14 @@ export function Contact() {
             </ul>
           </div>
 
-          {/* Full-width, generously sized touch targets on mobile. */}
-          <div className="mt-5 grid grid-cols-1 gap-2.5 sm:mt-6 sm:flex sm:flex-row sm:gap-3">
+          {/* Phones tap the WhatsApp and Phone rows above instead, so the
+              section needs no second pair of buttons. */}
+          <div className="mt-5 hidden gap-3 sm:mt-6 sm:flex">
             <ActionButton
               message={waMessages.general}
               variant="whatsapp"
               size="lg"
-              className="w-full sm:w-auto"
+              className="sm:w-auto"
               icon={<MessageCircle className="size-5" aria-hidden="true" />}
             >
               Chat on WhatsApp
@@ -181,7 +185,7 @@ export function Contact() {
                 href={telUrl() ?? '#contact'}
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto"
+                className="sm:w-auto"
                 icon={<Phone className="size-5" aria-hidden="true" />}
               >
                 Call Now

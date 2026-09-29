@@ -49,7 +49,11 @@ const faqs = [
 ]
 
 export function Faq() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
+  // Phones start fully collapsed so the section is a short list of questions
+  // instead of one long open answer. Desktop keeps the first row open.
+  const [openIndex, setOpenIndex] = useState<number | null>(() =>
+    typeof window !== 'undefined' && window.matchMedia('(min-width: 640px)').matches ? 0 : null,
+  )
 
   return (
     <Section
@@ -57,9 +61,10 @@ export function Faq() {
       eyebrow="FAQ"
       title="Questions Students Ask Us Most"
       description="If your question is not here, message us and we will answer it directly."
+      descriptionMobile="Not here? Message us and we will answer directly."
     >
       <Reveal className="mx-auto max-w-3xl">
-        <ul className="overflow-hidden rounded-2xl border border-line bg-white">
+        <ul className="overflow-hidden rounded-xl border border-line bg-white sm:rounded-2xl">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index
             return (
@@ -71,24 +76,24 @@ export function Faq() {
                     aria-expanded={isOpen}
                     aria-controls={`faq-panel-${index}`}
                     id={`faq-button-${index}`}
-                    className="flex min-h-14 w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors active:bg-ink-50 sm:min-h-16 sm:gap-5 sm:px-8 sm:py-6"
+                    className="flex min-h-13 w-full items-center justify-between gap-3.5 px-4 py-3 text-left transition-colors active:bg-ink-50 sm:min-h-16 sm:gap-5 sm:px-8 sm:py-6"
                   >
                     <span
-                      className={`text-[1rem] leading-snug font-semibold transition-colors sm:text-[1.05rem] ${
+                      className={`text-[0.92rem] leading-snug font-semibold transition-colors sm:text-[1.05rem] ${
                         isOpen ? 'text-ink-900' : 'text-ink-700'
                       }`}
                     >
                       {faq.question}
                     </span>
                     <span
-                      className={`flex size-8 shrink-0 items-center justify-center rounded-full border transition-transform duration-300 ${
+                      className={`flex size-7 shrink-0 items-center justify-center rounded-full border transition-transform duration-300 sm:size-8 ${
                         isOpen
                           ? 'rotate-45 border-ink-900 bg-ink-900 text-white'
                           : 'border-ink-200 text-ink-500'
                       }`}
                       aria-hidden="true"
                     >
-                      <Plus className="size-4" />
+                      <Plus className="size-3.5 sm:size-4" />
                     </span>
                   </button>
                 </h3>
@@ -102,7 +107,7 @@ export function Faq() {
                   className="faq-panel"
                 >
                   <div>
-                    <p className="max-w-2xl px-5 pb-5 text-[0.95rem] leading-[1.7] text-ink-600 sm:px-8 sm:pb-7 sm:leading-relaxed">
+                    <p className="max-w-2xl px-4 pb-4 text-[0.9rem] leading-[1.6] text-ink-600 sm:px-8 sm:pb-7 sm:text-[0.95rem] sm:leading-[1.7]">
                       {faq.answer}
                     </p>
                   </div>

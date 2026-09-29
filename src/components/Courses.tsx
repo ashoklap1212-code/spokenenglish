@@ -1,4 +1,4 @@
-import { MessageCircle } from 'lucide-react'
+import { ChevronDown, MessageCircle } from 'lucide-react'
 import { siteConfig } from '../config/site'
 import { waMessages } from '../lib/whatsapp'
 import { ActionButton } from './ui/ActionButton'
@@ -13,6 +13,8 @@ const courses = [
     tagline: 'Starting from zero',
     description:
       'For students who can barely form a sentence in English. We build the base slowly, with simple grammar and everyday words.',
+    /** Trimmed copy for phones - same course, one short sentence. */
+    shortDescription: 'Build basic speaking confidence for everyday conversations.',
     outcomes: [
       'Form simple sentences correctly',
       'Greet, introduce and ask basic questions',
@@ -27,6 +29,7 @@ const courses = [
     tagline: 'For those who know the basics',
     description:
       'You know some English but freeze when you have to use it. This level is about speed, clarity and stopping mid-sentence.',
+    shortDescription: 'Speak longer sentences without freezing halfway through.',
     outcomes: [
       'Speak in longer sentences without pausing',
       'Use tenses in real conversation',
@@ -41,6 +44,7 @@ const courses = [
     tagline: 'Job-ready confidence',
     description:
       'Focused practice for the questions you actually get asked, plus the grammar slips that cost people interviews.',
+    shortDescription: 'Prepare the answers and grammar that interviews actually need.',
     outcomes: [
       'Write and deliver a strong self-introduction',
       'Answer common interview questions',
@@ -55,6 +59,7 @@ const courses = [
     tagline: 'Campus, presentations, GDs',
     description:
       'English for college life - presenting in class, participating in group discussions and presenting your project.',
+    shortDescription: 'Present, take part in group discussions and handle viva.',
     outcomes: [
       'Present in front of the class',
       'Take part in group discussions',
@@ -65,6 +70,118 @@ const courses = [
   },
 ]
 
+type Course = (typeof courses)[number]
+
+function OutcomeList({ outcomes, limit }: { outcomes: string[]; limit?: number }) {
+  const visible = limit ? outcomes.slice(0, limit) : outcomes
+
+  return (
+    <ul className="space-y-2">
+      {visible.map((outcome) => (
+        <li
+          key={outcome}
+          className="flex items-start gap-2.5 text-[0.9rem] leading-[1.5] text-ink-700 sm:gap-3 sm:text-[0.95rem] sm:leading-[1.55]"
+        >
+          <span
+            className="mt-[0.45rem] size-1.5 shrink-0 rounded-full bg-accent-500"
+            aria-hidden="true"
+          />
+          <span className="min-w-0">{outcome}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+/** Phone card: title, one line, three benefits, a small CTA, rest on demand. */
+function CourseCardMobile({ course, index }: { course: Course; index: number }) {
+  return (
+    <article className="flex h-full flex-col rounded-xl border border-line bg-white p-4 shadow-soft">
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-[0.7rem] font-semibold tracking-[0.14em] text-ink-400 uppercase">
+          {course.tagline}
+        </span>
+        <span className="shrink-0 text-[0.8rem] font-semibold text-ink-300 tabular-nums">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+      </div>
+
+      <h3 className="mt-3 text-[1.1rem] leading-snug font-semibold">{course.title}</h3>
+      <p className="mt-1.5 text-[0.9rem] leading-[1.55] text-ink-600">{course.shortDescription}</p>
+
+      <div className="mt-4">
+        <OutcomeList outcomes={course.outcomes} limit={3} />
+      </div>
+
+      {/* Keeps the remaining outcomes reachable without adding them to the
+          default mobile view. Hidden entirely once space is not the issue. */}
+      <details className="group mt-3 sm:hidden">
+        <summary className="flex cursor-pointer list-none items-center gap-1 text-[0.8rem] font-semibold text-ink-800 [&::-webkit-details-marker]:hidden">
+          View details
+          <ChevronDown
+            className="size-3.5 transition-transform group-open:rotate-180"
+            aria-hidden="true"
+          />
+        </summary>
+        <div className="mt-3 border-t border-line pt-3">
+          <p className="text-[0.9rem] leading-[1.55] text-ink-600">{course.description}</p>
+          <div className="mt-3">
+            <OutcomeList outcomes={course.outcomes.slice(3)} />
+          </div>
+        </div>
+      </details>
+
+      <ActionButton
+        message={course.message}
+        variant="outline"
+        size="sm"
+        className="mt-4 self-start"
+        icon={<MessageCircle className="size-3.5" aria-hidden="true" />}
+      >
+        Enquire
+      </ActionButton>
+    </article>
+  )
+}
+
+/** Desktop card: the approved full layout, unchanged. */
+function CourseCardDesktop({ course, index }: { course: Course; index: number }) {
+  return (
+    <article className="flex h-full flex-col rounded-2xl border border-line bg-white p-5 transition duration-300 hover:border-ink-300 hover:shadow-card sm:p-8">
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-[0.78rem] font-semibold tracking-[0.14em] text-ink-400 uppercase sm:text-xs sm:tracking-[0.16em]">
+          {course.tagline}
+        </span>
+        <span className="shrink-0 text-sm font-semibold text-ink-300 tabular-nums">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+      </div>
+
+      <h3 className="mt-4 text-[1.2rem] font-semibold sm:mt-5 sm:text-xl">{course.title}</h3>
+      <p className="mt-2.5 text-[0.95rem] leading-[1.6] text-ink-600 sm:mt-3 sm:leading-relaxed">
+        {course.description}
+      </p>
+
+      <p className="mt-6 text-[0.78rem] font-semibold tracking-[0.14em] text-ink-400 uppercase sm:mt-7 sm:tracking-[0.16em]">
+        What you will be able to do
+      </p>
+      <div className="mt-3.5 flex-1 sm:mt-4">
+        <OutcomeList outcomes={course.outcomes} />
+      </div>
+
+      <ActionButton
+        message={course.message}
+        variant="outline"
+        size="lg"
+        className="mt-7 w-full sm:mt-8"
+        icon={<MessageCircle className="size-4" aria-hidden="true" />}
+      >
+        Enquire About This
+      </ActionButton>
+    </article>
+  )
+}
+
 export function Courses() {
   return (
     <Section
@@ -72,61 +189,28 @@ export function Courses() {
       eyebrow="What We Teach"
       title="Pick the Level That Matches You Today"
       description={`Every course at ${siteConfig.instituteName} is taught 1-to-1. Your plan is built from your level and your goal, never from a fixed syllabus for everybody.`}
+      descriptionMobile="Every course is 1-to-1, planned around your level and your goal."
       tone="mist"
     >
       {/* One card per row on mobile, two from tablet upwards. */}
-      <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3.5 sm:hidden">
         {courses.map((course, index) => (
           <Reveal key={course.id} delay={index * 70} className="h-full">
-            <article className="flex h-full flex-col rounded-2xl border border-line bg-white p-5 transition duration-300 hover:border-ink-300 hover:shadow-card sm:p-8">
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-[0.78rem] font-semibold tracking-[0.14em] text-ink-400 uppercase sm:text-xs sm:tracking-[0.16em]">
-                  {course.tagline}
-                </span>
-                <span className="shrink-0 text-sm font-semibold text-ink-300 tabular-nums">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-              </div>
+            <CourseCardMobile course={course} index={index} />
+          </Reveal>
+        ))}
+      </div>
 
-              <h3 className="mt-4 text-[1.2rem] font-semibold sm:mt-5 sm:text-xl">{course.title}</h3>
-              <p className="mt-2.5 text-[0.95rem] leading-[1.6] text-ink-600 sm:mt-3 sm:leading-relaxed">
-                {course.description}
-              </p>
-
-              <p className="mt-6 text-[0.78rem] font-semibold tracking-[0.14em] text-ink-400 uppercase sm:mt-7 sm:tracking-[0.16em]">
-                What you will be able to do
-              </p>
-              <ul className="mt-3.5 flex-1 space-y-2.5 sm:mt-4">
-                {course.outcomes.map((outcome) => (
-                  <li
-                    key={outcome}
-                    className="flex items-start gap-3 text-[0.95rem] leading-[1.55] text-ink-700"
-                  >
-                    <span
-                      className="mt-[0.5rem] size-1.5 shrink-0 rounded-full bg-accent-500"
-                      aria-hidden="true"
-                    />
-                    <span className="min-w-0">{outcome}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <ActionButton
-                message={course.message}
-                variant="outline"
-                size="lg"
-                className="mt-7 w-full sm:mt-8"
-                icon={<MessageCircle className="size-4" aria-hidden="true" />}
-              >
-                Enquire About This
-              </ActionButton>
-            </article>
+      <div className="hidden gap-6 sm:grid md:grid-cols-2">
+        {courses.map((course, index) => (
+          <Reveal key={course.id} delay={index * 70} className="h-full">
+            <CourseCardDesktop course={course} index={index} />
           </Reveal>
         ))}
       </div>
 
       <Reveal delay={120}>
-        <p className="mt-10 text-center text-[0.95rem] leading-relaxed text-ink-500 sm:mt-12">
+        <p className="mt-6 text-center text-[0.9rem] leading-relaxed text-ink-500 sm:mt-12 sm:text-[0.95rem]">
           Not sure which course fits you?{' '}
           {/* Inline link inside a sentence: negative margin keeps the visual
               line spacing identical while giving the tap area a real size. */}

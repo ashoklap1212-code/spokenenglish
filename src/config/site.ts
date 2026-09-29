@@ -121,14 +121,13 @@ export const keyFeatures = [
   },
 ] as const
 
-/** Details about the trainer. Replace the placeholders with real information. */
+/** Details about the trainer. */
 export const trainerConfig = {
-  name: '[Trainer Name]',
-  qualification: '[Qualification]',
-  experience: '[Years of Teaching Experience]',
-  /** Optional photo. Put the file in /public (for example /trainer.jpg) and
-   *  type "/trainer.jpg" here. While empty, a clean placeholder is shown. */
-  photo: '',
+  name: 'Sivakumar',
+  qualification: 'Spoken English Teaching',
+  experience:  '20years of Experience',
+  /** Photo lives in /public. Keep this in sync with the file name. */
+  photo: '/attak.png',
 }
 
 /** Short introduction used in the "About the Institute" section. */

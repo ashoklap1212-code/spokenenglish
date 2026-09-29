@@ -183,12 +183,12 @@
   }
 
   /*
-   * Mobile spacing rhythm. Sections breathe at 56px on a 320-430px phone
+   * Mobile spacing rhythm. Sections breathe at 44px on a 320-430px phone
    * instead of the 80px+ used on desktop, so more of the page is content
    * and less is empty background.
    */
   .section-pad {
-    padding-block: 3.5rem;
+    padding-block: 2.75rem;
   }
 
   @media (min-width: 640px) {
@@ -208,7 +208,7 @@
    * footer are never hidden behind it. Honours the iPhone home indicator.
    */
   .safe-bottom-bar {
-    padding-bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
   }
 
   @media (min-width: 1024px) {

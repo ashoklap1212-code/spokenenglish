@@ -50,14 +50,15 @@ export function EnquiryForm() {
       eyebrow="Free Trial Class"
       title="Book Your First Session In Two Minutes"
       description="Fill this in and we open WhatsApp with your details already written. You will get a reply with the available slots and the fee for your level."
+      descriptionMobile="Fill this in and we open WhatsApp with the slots and fee for your level."
       tone="mist"
     >
       <Reveal className="mx-auto max-w-2xl">
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-line bg-white p-5 shadow-soft sm:p-9"
+          className="rounded-xl border border-line bg-white p-4 shadow-soft sm:rounded-2xl sm:p-9"
         >
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+          <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-5">
             <div>
               <label htmlFor="enq-name" className={labelClass}>
                 Your name
@@ -129,15 +130,17 @@ export function EnquiryForm() {
             </div>
           </div>
 
+          {/* A form submit genuinely benefits from the wider target, so this
+              one control stays full width on phones. */}
           <button
             type="submit"
-            className="mt-6 inline-flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-wa px-6 text-base font-semibold text-white transition duration-200 hover:bg-wa-dark active:bg-wa-dark sm:mt-7 sm:h-12 sm:w-auto sm:px-7"
+            className="mt-5 inline-flex h-12 w-full items-center justify-center gap-2 rounded-[10px] bg-wa px-5 text-[0.95rem] font-semibold text-white transition duration-200 hover:bg-wa-dark active:bg-wa-dark sm:mt-7 sm:h-12 sm:w-auto sm:rounded-full sm:px-7 sm:text-base"
           >
-            <Send className="size-5 shrink-0" aria-hidden="true" />
+            <Send className="size-4 shrink-0 sm:size-5" aria-hidden="true" />
             Send Enquiry on WhatsApp
           </button>
 
-          <p className="mt-4 flex items-start gap-2 text-[0.78rem] leading-relaxed text-ink-400 sm:mt-5 sm:text-xs">
+          <p className="mt-3.5 flex items-start gap-2 text-[0.75rem] leading-relaxed text-ink-400 sm:mt-5 sm:text-xs">
             <MessageCircle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
             Nothing is stored on this website. The details are only used to open your WhatsApp chat
             with {siteConfig.instituteName}.

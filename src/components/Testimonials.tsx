@@ -45,28 +45,30 @@ type Testimonial = (typeof testimonials)[number]
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <figure
-      className={`flex h-full flex-col rounded-2xl border bg-white p-6 sm:p-7 ${
-        testimonial.isPlaceholder ? 'border-dashed border-ink-200' : 'border-line shadow-soft'
+      className={`flex h-full flex-col rounded-xl border bg-white p-4 shadow-soft sm:rounded-2xl sm:p-7 ${
+        testimonial.isPlaceholder ? 'border-dashed border-ink-200' : 'border-line'
       }`}
     >
       <Quote
-        className={`size-5 shrink-0 ${testimonial.isPlaceholder ? 'text-ink-200' : 'text-accent-400'}`}
+        className={`size-4 shrink-0 sm:size-5 ${
+          testimonial.isPlaceholder ? 'text-ink-200' : 'text-accent-400'
+        }`}
         aria-hidden="true"
       />
       <blockquote
-        className={`mt-5 flex-1 text-[0.98rem] leading-[1.65] ${
+        className={`mt-3.5 flex-1 text-[0.9rem] leading-[1.6] sm:mt-5 sm:text-[0.98rem] sm:leading-[1.65] ${
           testimonial.isPlaceholder ? 'italic text-ink-400' : 'text-ink-700'
         }`}
       >
         {testimonial.feedback}
       </blockquote>
       <figcaption
-        className={`mt-6 flex items-center gap-3 pt-5 ${
+        className={`mt-4 flex items-center gap-2.5 pt-4 sm:mt-6 sm:gap-3 sm:pt-5 ${
           testimonial.isPlaceholder ? 'border-t border-dashed border-ink-200' : 'border-t border-line'
         }`}
       >
         <span
-          className={`flex size-9 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${
+          className={`flex size-8 shrink-0 items-center justify-center rounded-full text-[0.8rem] font-semibold sm:size-9 sm:text-sm ${
             testimonial.isPlaceholder ? 'bg-ink-50 text-ink-400' : 'bg-ink-900 text-white'
           }`}
           aria-hidden="true"
@@ -74,8 +76,12 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
           {testimonial.isPlaceholder ? '?' : testimonial.name.charAt(0).toUpperCase()}
         </span>
         <span className="flex min-w-0 flex-col leading-tight">
-          <span className="truncate text-sm font-semibold text-ink-900">{testimonial.name}</span>
-          <span className="truncate text-[0.8rem] text-ink-400">{testimonial.course}</span>
+          <span className="truncate text-[0.85rem] font-semibold text-ink-900 sm:text-sm">
+            {testimonial.name}
+          </span>
+          <span className="truncate text-[0.75rem] text-ink-400 sm:text-[0.8rem]">
+            {testimonial.course}
+          </span>
         </span>
       </figcaption>
     </figure>
@@ -117,6 +123,7 @@ export function Testimonials() {
       eyebrow="Student Voices"
       title="What Our Students Say"
       description="We publish real words from real students only, and only with their permission."
+      descriptionMobile="Real words from real students, shared with permission."
       tone="mist"
     >
       {/* Mobile: one swipeable card at a time. Desktop: the approved 3-up grid. */}
@@ -170,7 +177,7 @@ export function Testimonials() {
       </div>
 
       <Reveal delay={140}>
-        <p className="mt-10 text-center text-sm text-ink-500 sm:mt-12">
+        <p className="mt-6 text-center text-[0.85rem] text-ink-500 sm:mt-12 sm:text-sm">
           Been a student?{' '}
           <ActionButton
             message={waMessages.general}

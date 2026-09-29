@@ -92,3 +92,5 @@ src/
   components/ui/        <-- shared Section, ActionButton, Reveal
 index.html              <-- SEO tags
 ```
+
+# spokenenglish

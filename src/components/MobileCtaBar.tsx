@@ -81,17 +81,17 @@ export function MobileCtaBar() {
       data-visible={visible}
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
-      <div className="flex items-center gap-3 px-4 py-2.5">
-        <p className="hidden min-w-0 flex-1 text-[0.8rem] leading-tight font-medium text-ink-600 min-[360px]:block">
-          Have questions about
-          <span className="block truncate font-semibold text-ink-900">1-to-1 English classes?</span>
+      <div className="flex items-center gap-3 px-4 py-2">
+        <p className="hidden min-w-0 flex-1 text-[0.8rem] leading-tight font-medium text-ink-600 min-[380px]:block">
+          Free trial class
+          <span className="block truncate font-semibold text-ink-900">1-to-1 English coaching</span>
         </p>
         <a
           href={href}
           {...(link ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-          className="inline-flex h-12 w-full shrink-0 items-center justify-center gap-2 rounded-full bg-wa px-5 text-[0.95rem] font-semibold text-white transition-colors active:bg-wa-dark min-[360px]:w-auto"
+          className="inline-flex h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-[10px] bg-wa px-4 text-[0.9rem] font-semibold text-white transition-colors active:bg-wa-dark min-[380px]:w-auto"
         >
-          <MessageCircle className="size-5 shrink-0" aria-hidden="true" />
+          <MessageCircle className="size-4 shrink-0" aria-hidden="true" />
           Chat on WhatsApp
         </a>
       </div>

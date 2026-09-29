@@ -7,6 +7,11 @@ type SectionProps = {
   title: string
   titleId?: string
   description?: string
+  /**
+   * Optional trimmed copy shown on phones only. Same message, fewer words -
+   * the full `description` still renders from the `sm` breakpoint upwards.
+   */
+  descriptionMobile?: string
   children: ReactNode
   align?: 'left' | 'center'
   tone?: 'white' | 'mist' | 'line'
@@ -26,6 +31,7 @@ export function Section({
   title,
   titleId,
   description,
+  descriptionMobile,
   children,
   align = 'center',
   tone = 'white',
@@ -47,24 +53,31 @@ export function Section({
           }
         >
           {eyebrow ? (
-            <p className="mb-3.5 text-[0.8rem] font-semibold tracking-[0.18em] text-accent-600 uppercase sm:mb-4 sm:text-xs sm:tracking-[0.2em]">
+            <p className="mb-3 text-[0.72rem] font-semibold tracking-[0.18em] text-accent-600 uppercase sm:mb-4 sm:text-xs sm:tracking-[0.2em]">
               {eyebrow}
             </p>
           ) : null}
           <h2
             id={headingId}
-            className="text-[1.6rem] leading-[1.2] font-semibold sm:text-3xl lg:text-[2.4rem] lg:leading-[1.18]"
+            className="text-[1.375rem] leading-[1.25] font-semibold sm:text-3xl lg:text-[2.4rem] lg:leading-[1.18]"
           >
             {title}
           </h2>
           {description ? (
-            <p className="mt-4 text-[1.0rem] leading-[1.65] text-ink-600 sm:mt-5 sm:text-[1.05rem] sm:leading-relaxed">
-              {description}
+            <p className="mt-3 text-[0.95rem] leading-[1.6] text-ink-600 sm:mt-5 sm:text-[1.05rem] sm:leading-relaxed">
+              {descriptionMobile ? (
+                <>
+                  <span className="sm:hidden">{descriptionMobile}</span>
+                  <span className="hidden sm:inline">{description}</span>
+                </>
+              ) : (
+                description
+              )}
             </p>
           ) : null}
         </Reveal>
 
-        <div className="mt-10 sm:mt-16">{children}</div>
+        <div className="mt-7 sm:mt-16">{children}</div>
       </div>
     </section>
   )
